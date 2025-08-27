@@ -1,0 +1,340 @@
+<p-blockUI [blocked]="loadingCreateRequest">
+    <div class="text-center">
+        <p-progressSpinner styleClass="w-4rem" strokeWidth="3" fill="transparent" animationDuration="0.5s" />
+        <h5 class="text-white mt-1">Creando solicitud...</h5>
+    </div>
+</p-blockUI>
+<p-toast position="top-center" life="5000" preventOpenDuplicates="true" />
+<div class="card">
+    <h5 class="font-bold mb-1">Datos a confirmar</h5>
+    <p class="text-color-secondary">Confirma la información y selecciona las opciones de agenda.</p>
+    <div class="flex flex-column xxl:flex-row justify-content-around gap-2">
+        <p-fieldset legend="Información de usuario solicitante" class="w-full">
+            @if (userData.nombre) {
+                <div class="grid formgrid p-fluid">
+                    <!-- <div class="field col-12"> //Antes-->
+                    <div class="field col-12 sm:col-6">
+                        <span class="font-semibold">Nombre o razón social</span>
+                        <p class="text-gray-400">
+                            {{ userData.nombre }}
+                        </p>
+                    </div>
+                    <div class="field col-12 lg:col-6">
+                        <span class="font-semibold">Tipo de identificación</span>
+                        <p class="text-gray-400">{{ userDataTipoIdentificacion }}</p>
+                    </div>
+                    <!-- <div class="field col-12 lg:col-6">  Antes-->
+                    <div class="field col-12 sm:col-6">
+                        <span class="font-semibold">Número de identificación</span>
+                        <p class="text-gray-400">
+                            {{ userData.numero_documento | number: '1.0-0' }}
+                        </p>
+                    </div>
+                    @if (userData.tipo_identificacion === '0' || userData.tipo_identificacion === '1') {
+                        <div class="field col-12 lg:col-6">
+                            <span class="font-semibold">Lugar de expedición</span>
+                            <p class="text-gray-400">{{ userData.lugar_expedicion }}</p>
+                        </div>
+                        <div class="field col-12 lg:col-6">
+                            <span class="font-semibold">Fecha de expedición</span>
+                            <p class="text-gray-400">{{ userData.fecha_expedicion | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                    } @else {
+                        <div class="field col-12">
+                            <span class="font-semibold">Tipo de persona jurídica</span>
+                            <p class="text-gray-400">{{ userDataTipoPersonaJuridica }}</p>
+                        </div>
+                    }
+                    <div class="field col-12">
+                        <span class="font-semibold">Calidad del solicitante</span>
+                        <p class="text-gray-400">{{ userDataCalidadSolicitante }}</p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Celular 1</span>
+                        <p class="text-gray-400">
+                            {{ userData.celular1 }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Celular 2</span>
+                        <p class="text-gray-400">
+                            {{ userData.celular2 ? userData.celular2 : '--- --- ----' }}
+                        </p>
+                    </div>
+                    <div class="field col-12 lg:col-6">
+                        <span class="font-semibold">Teléfono</span>
+                        <p class="text-gray-400">
+                            {{ userData.telefono ? userData.telefono : '--- --- ----' }}
+                        </p>
+                    </div>
+                    <div class="field col-12 lg:col-6">
+                        <span class="font-semibold">Correo electrónico</span>
+                        <p class="text-gray-400">
+                            {{ userData.email }}
+                        </p>
+                    </div>
+
+                    <div class="field col-6">
+                        <span class="font-semibold">Departamento</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ userDataDepartamento }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Municipio</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ userDataMunicipio }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Sector</span>
+                        <p class="text-gray-400">
+                            {{ userDataSector }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Centro poblado</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ userDataCentroPoblado }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Barrio</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ userData.direccion_barrio }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Dirección</span>
+                        <p class="text-gray-400">
+                            {{ userData.direccion }}
+                        </p>
+                    </div>
+                </div>
+                <p-button styleClass="w-full" label="Editar información" (click)="completeUser()" />
+            } @else {
+                <div class="justify-content-center aling-items-center">
+                    <p-messages
+                        [value]="[{ severity: 'info', detail: 'Información de usuario solicitante no ingresada' }]"
+                        [enableService]="false"
+                        [closable]="false" />
+                    <p-button
+                        label="Ingresar información"
+                        (click)="completeUser()"
+                        icon="pi pi-angle-left"
+                        iconPos="left" />
+                </div>
+            }
+        </p-fieldset>
+
+        <p-fieldset legend="Información de obra / inmueble" class="w-full">
+            @if (propertyData.uso) {
+                <div class="grid formgrid p-fluid">
+                    <!-- <div class="field col-12">  // Antes-->
+                    <div [class]="propertyData.codigo_cliente ? 'field col-6' : 'field col-12'">
+                        <span class="font-semibold truncate-avz">Nombre del proyecto</span>
+                        <p class="text-gray-400">
+                            {{ propertyData.nombre_proyecto ? propertyData.nombre_proyecto : '---------------' }}
+                        </p>
+                    </div>
+                    @if (propertyData.codigo_cliente) {
+                        <div class="field col-6">
+                            <span class="font-semibold">Codigo cliente</span>
+                            <p class="text-gray-400">
+                                {{ propertyData.codigo_cliente }}
+                            </p>
+                        </div>
+                    }
+                    <div class="field col-6">
+                        <span class="font-semibold">Departamento</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ propertyDataDepartamento }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Municipio</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ propertyDataMunicipio }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Sector</span>
+                        <p class="text-gray-400">
+                            {{ propertyDataSector }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Centro poblado</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ propertyDataCentroPoblado }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Barrio</span>
+                        <p class="text-gray-400 truncate-bas">
+                            {{ propertyData.direccion_barrio }}
+                        </p>
+                    </div>
+                    <div class="field col-6">
+                        <span class="font-semibold">Dirección</span>
+                        <p class="text-gray-400">
+                            {{ propertyData.direccion }}
+                        </p>
+                    </div>
+                    @if (typeRequest?.code !== 9) {
+                        <div class="field col-6">
+                            <span class="font-semibold">Tipo de carga</span>
+                            <p class="text-gray-400">
+                                {{ propertyDataTipoCarga }}
+                            </p>
+                        </div>
+                    }
+                    <div class="field col-6">
+                        <span class="font-semibold">Uso</span>
+                        <p class="text-gray-400">
+                            {{ propertyDataUso }}
+                        </p>
+                    </div>
+                    @if (typeRequest?.code !== 9) {
+                        <div class="field col-6">
+                            <span class="font-semibold">Carga nueva</span>
+                            <p class="text-gray-400">{{ propertyData.carga_nueva }} Kw</p>
+                        </div>
+                        <div class="field col-6">
+                            <span class="font-semibold">Carga total</span>
+                            <p class="text-gray-400">{{ propertyData.carga_total }} Kw</p>
+                        </div>
+                        <div class="field col-6">
+                            <span class="font-semibold truncate-avz">Medidores existentes</span>
+                            <p class="text-gray-400">
+                                {{ propertyData.medidores_existentes }}
+                            </p>
+                        </div>
+                        <div class="field col-6">
+                            <span class="font-semibold truncate-avz">Medidores nuevos</span>
+                            <p class="text-gray-400">
+                                {{ propertyData.medidores_proyectados }}
+                            </p>
+                        </div>
+                    }
+                    <div class="field col-12">
+                        <span class="font-semibold">Observación</span>
+                        <p class="text-gray-400">
+                            {{ propertyData.observacion ? propertyData.observacion : 'Sin observación' }}
+                        </p>
+                    </div>
+                </div>
+                <p-button styleClass="w-full" label="Editar información" (click)="prevPage()" />
+            } @else {
+                <div class="justify-content-center aling-items-center">
+                    <p-messages
+                        [value]="[{ severity: 'info', detail: 'Información de obra / inmueble no ingresada' }]"
+                        [enableService]="false"
+                        [closable]="false" />
+                    <p-button
+                        label="Ingresar información "
+                        (click)="prevPage()"
+                        icon="pi pi-angle-left"
+                        iconPos="left" />
+                </div>
+            }
+        </p-fieldset>
+    </div>
+    <div class="flex flex-column md:flex-row justify-content-around gap-2 mt-2">
+        <p-fieldset legend="Archivos a cargar 📄" class="w-full">
+            <div class="grid formgrid p-fluid">
+                <div [class]="archivoFactura ? 'field col-12 xl:col-6' : 'field col-12'">
+                    <span class="font-semibold">Archivo de identificación</span>
+                    <p class="text-gray-400 break-all-word">
+                        {{ archivoId?.name ? archivoId?.name : 'No se ha cargado ningún archivo' }}
+                    </p>
+                </div>
+                @if (archivoFactura) {
+                    <div class="field col-12 xl:col-6">
+                        <span class="font-semibold">Archivo última factura</span>
+                        <p class="text-gray-400 break-all-word">
+                            {{ archivoFactura.name }}
+                        </p>
+                    </div>
+                }
+                <div class="field col-12 mb-0">
+                    <span class="font-semibold">Foto de la fachada</span>
+                    <p class="text-gray-400 break-all-word mb-1">
+                        {{ fotoFachada?.name ? fotoFachada?.name : 'No se ha subido ninguna foto' }}
+                    </p>
+                    @if (previewFotoFachada()) {
+                        <img [src]="previewFotoFachada()" alt="Preview de la foto de la fachada" />
+                    }
+                </div>
+            </div>
+        </p-fieldset>
+
+        <p-fieldset legend="Agendamiento 📆" class="w-full">
+            <form [formGroup]="jornadaForm" class="p-fluid formgrid grid">
+                <!-- Linea 1 -->
+                <div class="field col-12 xl:col-6">
+                    <label for="jornada" class="required">Jornada</label>
+                    <p-dropdown
+                        [autoOptionFocus]="false"
+                        [options]="opcionesJoranadas"
+                        formControlName="jornada"
+                        optionValue="code"
+                        optionLabel="name"
+                        placeholder="Seleccione una opción"
+                        inputId="jornada" />
+                    @if (jornadaForm.get('jornada')?.invalid && (submitted || jornadaForm.get('jornada')?.dirty)) {
+                        <small class="p-error">Jornada es requerida</small>
+                    }
+                </div>
+                <div class="field col-12 xl:col-6">
+                    <label for="name" class="required">Semana</label>
+                    <p-dropdown
+                        [autoOptionFocus]="false"
+                        [options]="semanaOptions"
+                        formControlName="dia_semana"
+                        optionValue="code"
+                        optionLabel="name"
+                        placeholder="Seleccione una opción"
+                        inputId="dia_semana" />
+                    @if (
+                        jornadaForm.get('dia_semana')?.invalid && (submitted || jornadaForm.get('dia_semana')?.dirty)
+                    ) {
+                        <small class="p-error">Semana es requerida</small>
+                    }
+                </div>
+                <!-- Linea 2 -->
+                <div class="field col-12">
+                    <label for="observacion">Observación</label>
+                    <textarea
+                        id="observacion"
+                        pInputTextarea
+                        formControlName="observacion"
+                        rows="5"
+                        [autoResize]="true"
+                        maxlength="250"></textarea>
+                    <div class="flex justify-content-between">
+                        <small class="text-color-secondary">Máximo 250 caracteres</small>
+                        <small
+                            [ngClass]="{
+                                'text-color-secondary': jornadaForm.get('observacion')?.value?.length < 250,
+                                'p-error': jornadaForm.get('observacion')?.value?.length === 250,
+                            }">
+                            {{ jornadaForm.get('observacion')?.value?.length }}/250
+                        </small>
+                    </div>
+                </div>
+            </form>
+        </p-fieldset>
+    </div>
+    <footer>
+        <div class="grid grid-nogutter justify-content-between mt-6">
+            <p-button label="Anterior" (click)="prevPage()" icon="pi pi-angle-left"></p-button>
+            <p-button
+                label="Crear solicitud"
+                (click)="complete()"
+                icon="pi pi-angle-right"
+                iconPos="right"
+                styleClass="p-button-success" />
+        </div>
+    </footer>
+</div>

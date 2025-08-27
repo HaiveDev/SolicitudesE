@@ -1,0 +1,352 @@
+<p-toast position="top-center" life="5000" preventOpenDuplicates="true" />
+<div class="card">
+    <h5 class="font-bold mb-1">Datos de obra / inmueble</h5>
+    <p class="text-color-secondary">Ingresa la información de obra / inmueble</p>
+    <form [formGroup]="propertyForm" class="p-fluid formgrid grid mt-5">
+        <!-- Linea 1 -->
+        <!-- <div class="field col-12 sm:col-6 xl:col-3">
+                    <label for="cadastralCertificate">Cédula catastral</label>
+                    <input id="cadastralCertificate" type="text" pInputText formControlName="cadastralCertificate" />
+                    @if (
+                        propertyForm.get('cadastralCertificate')?.invalid &&
+                        (submitted || propertyForm.get('cadastralCertificate')?.dirty)
+                    ) {
+                        <small class="p-error">Cédula catastral es requerida</small>
+                    }
+                </div> -->
+        <div class="field col-12 xl:col-6">
+            <label for="nombre_proyecto">Nombre del proyecto</label>
+            <input id="nombre_proyecto" type="text" pInputText formControlName="nombre_proyecto" />
+            @if (
+                propertyForm.get('nombre_proyecto')?.invalid &&
+                (submitted || propertyForm.get('nombre_proyecto')?.dirty)
+            ) {
+                <small class="p-error">Nombre del proyecto es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_departamento" class="required">Departamento</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="departamentos"
+                formControlName="direccion_departamento"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_departamento" />
+            @if (
+                propertyForm.get('direccion_departamento')?.invalid &&
+                (submitted || propertyForm.get('direccion_departamento')?.dirty)
+            ) {
+                <small class="p-error">Departamento es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_municipio" class="required">Municipio</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="municipios"
+                formControlName="direccion_municipio"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_municipio" />
+            @if (
+                propertyForm.get('direccion_municipio')?.invalid &&
+                (submitted || propertyForm.get('direccion_municipio')?.dirty)
+            ) {
+                <small class="p-error">Municipio es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="sector" class="required">Sector</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="sectores"
+                formControlName="sector"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="sector" />
+            @if (propertyForm.get('sector')?.invalid && (submitted || propertyForm.get('sector')?.dirty)) {
+                <small class="p-error">Sector es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_centro_poblado" class="required">Centro poblado</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="centros_poblados"
+                formControlName="direccion_centro_poblado"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_centro_poblado" />
+            @if (
+                propertyForm.get('direccion_centro_poblado')?.invalid &&
+                (submitted || propertyForm.get('direccion_centro_poblado')?.dirty)
+            ) {
+                <small class="p-error">Centro poblado es requerido</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6 xl:col-3">
+            <label for="direccion" class="required">Dirección</label>
+            <input id="direccion" type="text" pInputText formControlName="direccion" />
+            @if (propertyForm.get('direccion')?.invalid && (submitted || propertyForm.get('direccion')?.dirty)) {
+                <small class="p-error">Dirección es requerida</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6 xl:col-3">
+            <label for="direccion_barrio" class="required">Barrio</label>
+            <input id="direccion_barrio" type="text" pInputText formControlName="direccion_barrio" />
+            @if (
+                propertyForm.get('direccion_barrio')?.invalid &&
+                (submitted || propertyForm.get('direccion_barrio')?.dirty)
+            ) {
+                <small class="p-error">Barrio es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="latitud" class="required">Latitud</label>
+            <p-inputNumber
+                formControlName="latitud"
+                inputId="latitud"
+                [min]="1.86"
+                [max]="2.93"
+                [minFractionDigits]="6"
+                [maxFractionDigits]="6"
+                step="0.1"
+                showClear />
+            @if (propertyForm.get('latitud')?.invalid && (submitted || propertyForm.get('latitud')?.dirty)) {
+                <small class="p-error">Latitud es requerida</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="longitud" class="required">Longitud</label>
+            <p-inputNumber
+                formControlName="longitud"
+                inputId="longitud"
+                [min]="-73.0"
+                [max]="-72.0"
+                [minFractionDigits]="6"
+                [maxFractionDigits]="6"
+                step="0.1"
+                showClear />
+            @if (propertyForm.get('longitud')?.invalid && (submitted || propertyForm.get('longitud')?.dirty)) {
+                <small class="p-error">Longitud es requerida</small>
+            }
+        </div>
+
+        @if (typeRequest?.code === 3 || typeRequest?.code === 2) {
+            @if (typeRequest?.code === 3) {
+                <div class="field col-12 sm:col-6 xl:col-3">
+                    <label for="codigo_cliente" class="required">Código del cliente</label>
+                    <p-inputNumber
+                        formControlName="codigo_cliente"
+                        inputId="codigo_cliente"
+                        [maxlength]="8"
+                        [useGrouping]="false"
+                        showClear />
+                    @if (
+                        propertyForm.get('codigo_cliente')?.errors?.['required'] &&
+                        (submitted || propertyForm.get('codigo_cliente')?.dirty)
+                    ) {
+                        <small class="p-error">Código del cliente es requerido</small>
+                    } @else if (propertyForm.get('codigo_cliente')?.errors?.['min']) {
+                        <small class="p-error">Código no válido</small>
+                    }
+                </div>
+            }
+            <div class="field col-12 sm:col-6 xl:col-4 xxl:col-3">
+                <label for="archivo_factura" class="required">Última factura</label>
+                <div class="custom-file-button">
+                    <label class="text-left" for="archivo_factura">
+                        <i class="pi pi-upload mr-3"></i>
+                        @if (archivoFacturaName) {
+                            <span>{{ archivoFacturaName }}</span>
+                        } @else {
+                            <span>Seleccione un archivo (PDF)</span>
+                        }
+                    </label>
+                    <input
+                        type="file"
+                        id="archivo_factura"
+                        (change)="onarchivoFacturaSelected($event)"
+                        accept="application/pdf"
+                        required />
+                    @if (archivoFacturaErr) {
+                        <small class="p-error mt-0">PDF de última factura es requerido</small>
+                    }
+                </div>
+            </div>
+            @if (typeRequest?.code === 2) {
+                <div class="hidden sm:block sm:col-6 xl:col-8 xxl:col-9"></div>
+            } @else {
+                <div class="hidden xl:block xl:col-5 xxl:col-6"></div>
+            }
+        }
+        <!-- Linea 3 -->
+        @if (typeRequest?.code !== 9) {
+            <p-fieldset legend="⚡ Información técnica ⚡" class="col-12 mb-3">
+                <div class="grid">
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="tipo_carga" class="required">Tipo de carga</label>
+                        <p-dropdown
+                            [autoOptionFocus]="false"
+                            [options]="tipoCargas"
+                            formControlName="tipo_carga"
+                            optionLabel="name"
+                            optionValue="code"
+                            placeholder="Seleccione una opción"
+                            inputId="tipo_carga" />
+                        @if (
+                            propertyForm.get('tipo_carga')?.invalid &&
+                            (submitted || propertyForm.get('tipo_carga')?.dirty)
+                        ) {
+                            <small class="p-error">Tipo de carga es requerido</small>
+                        }
+                    </div>
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="uso" class="required">Uso</label>
+                        <p-dropdown
+                            [autoOptionFocus]="false"
+                            [options]="usos"
+                            formControlName="uso"
+                            optionLabel="name"
+                            optionValue="code"
+                            placeholder="Seleccione una opción"
+                            inputId="uso" />
+                        @if (propertyForm.get('uso')?.invalid && (submitted || propertyForm.get('uso')?.dirty)) {
+                            <small class="p-error">Uso es requerido</small>
+                        }
+                    </div>
+                    <div class="hidden xl:block field sm:col-6 xl:col-6"></div>
+                    <!-- Linea 4 -->
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="carga_nueva" class="required">Carga nueva</label>
+                        <p-inputNumber
+                            formControlName="carga_nueva"
+                            inputId="carga_nueva"
+                            suffix=" Kw"
+                            [min]="1"
+                            [minFractionDigits]="1"
+                            [maxFractionDigits]="1"
+                            step="0.1"
+                            showClear />
+                        @if (
+                            propertyForm.get('carga_nueva')?.invalid &&
+                            (submitted || propertyForm.get('carga_nueva')?.dirty)
+                        ) {
+                            <small class="p-error">Carga nueva es requerida</small>
+                        }
+                    </div>
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="carga_total" class="required">Carga total</label>
+                        <p-inputNumber
+                            formControlName="carga_total"
+                            inputId="carga_total"
+                            suffix=" Kw"
+                            [min]="1"
+                            [minFractionDigits]="1"
+                            [maxFractionDigits]="1"
+                            step="0.1"
+                            showClear />
+                        @if (
+                            propertyForm.get('carga_total')?.invalid &&
+                            (submitted || propertyForm.get('carga_total')?.dirty)
+                        ) {
+                            <small class="p-error">Carga total es requerida</small>
+                        }
+                    </div>
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="medidores_existentes" class="required">Medidores existentes</label>
+                        <p-inputNumber
+                            formControlName="medidores_existentes"
+                            inputId="medidores_existentes"
+                            min="0"
+                            showClear />
+                        @if (
+                            propertyForm.get('medidores_existentes')?.invalid &&
+                            (submitted || propertyForm.get('medidores_existentes')?.dirty)
+                        ) {
+                            <small class="p-error">Medidores existentes es requerido</small>
+                        }
+                    </div>
+                    <div class="field col-12 sm:col-6 xl:col-3">
+                        <label for="medidores_proyectados">Medidores nuevos</label>
+                        <input
+                            class="cursor-block"
+                            id="medidores_proyectados"
+                            type="number"
+                            pInputText
+                            formControlName="medidores_proyectados" />
+                    </div>
+                    <!-- Linea 5 -->
+                </div>
+            </p-fieldset>
+        } @else {
+            <div class="field col-12 sm:col-6 xl:col-3">
+                <label for="uso" class="required">Uso</label>
+                <p-dropdown
+                    [autoOptionFocus]="false"
+                    [options]="usos"
+                    formControlName="uso"
+                    optionLabel="name"
+                    optionValue="code"
+                    placeholder="Seleccione una opción"
+                    inputId="uso" />
+                @if (propertyForm.get('uso')?.invalid && (submitted || propertyForm.get('uso')?.dirty)) {
+                    <small class="p-error">Uso es requerido</small>
+                }
+            </div>
+        }
+        <div class="field col-12 sm:col-7 md:col-6 xl:col-4 xxl:col-3">
+            <label for="fileInput" class="required">Foto de la fachada</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="fileInput">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (fotoFachadaName) {
+                        <span>{{ fotoFachadaName }}</span>
+                    } @else {
+                        <span>Seleccione una foto</span>
+                    }
+                </label>
+                <input
+                    type="file"
+                    id="fileInput"
+                    (change)="onFotoFachadaSelected($event)"
+                    name="file"
+                    accept="image/*" />
+                @if (fotoFachadaErr) {
+                    <small class="p-error">Foto de la fachada es requerida</small>
+                }
+            </div>
+        </div>
+        <div class="field col-12">
+            <label for="observacion">Observación</label>
+            <textarea
+                id="observacion"
+                pInputTextarea
+                formControlName="observacion"
+                rows="5"
+                [autoResize]="true"
+                maxlength="250"></textarea>
+            <div class="flex justify-content-between">
+                <small class="text-color-secondary">Máximo 250 caracteres</small>
+                <small
+                    [ngClass]="{
+                        'text-color-secondary': propertyForm.get('observacion')?.value?.length < 250,
+                        'p-error': propertyForm.get('observacion')?.value?.length === 250,
+                    }">
+                    {{ propertyForm.get('observacion')?.value?.length }}/250
+                </small>
+            </div>
+        </div>
+    </form>
+    <footer>
+        <div class="grid grid-nogutter justify-content-between mt-6">
+            <p-button label="Anterior" (click)="prevPage()" icon="pi pi-angle-left" />
+            <p-button label="Guardar y continuar" (click)="nextPage()" icon="pi pi-angle-right" iconPos="right" />
+        </div>
+    </footer>
+</div>

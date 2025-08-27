@@ -1,0 +1,77 @@
+<p-fieldset legend="Información del inmueble / obra" styleClass="mt-4">
+    <div class="grid formgrid p-fluid">
+        <div class="field col-12 md:col-6">
+            <span class="font-semibold">Nombre del proyecto</span>
+            <p class="text-gray-400">{{ propertyData.nombre_proyecto || '---' }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Departamento</span>
+            <p class="text-gray-400">{{ departamento }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Municipio</span>
+            <p class="text-gray-400">{{ municipio }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Sector</span>
+            <p class="text-gray-400">{{ sector }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Centro poblado</span>
+            <p class="text-gray-400">{{ centroPoblado }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Barrio</span>
+            <p class="text-gray-400">{{ propertyData.direccion_barrio }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Dirección</span>
+            <p class="text-gray-400">{{ propertyData.direccion }}</p>
+        </div>
+
+        <!-- Mostrar datos técnicos si el tipo no es 9 -->
+        @if (typeCode !== 9) {
+            <div class="field col-6">
+                <span class="font-semibold">Tipo de carga</span>
+                <p class="text-gray-400">{{ tipoCarga }}</p>
+            </div>
+            <div class="field col-6">
+                <span class="font-semibold">Carga nueva</span>
+                <p class="text-gray-400">{{ propertyData.carga_nueva }} Kw</p>
+            </div>
+            <div class="field col-6">
+                <span class="font-semibold">Carga total</span>
+                <p class="text-gray-400">{{ propertyData.carga_total }} Kw</p>
+            </div>
+            <div class="field col-6">
+                <span class="font-semibold">Medidores existentes</span>
+                <p class="text-gray-400">{{ propertyData.medidores_existentes }}</p>
+            </div>
+            <div class="field col-6">
+                <span class="font-semibold">Medidores nuevos</span>
+                <p class="text-gray-400">{{ propertyData.medidores_proyectados }}</p>
+            </div>
+        }
+
+        <div class="field col-6">
+            <span class="font-semibold">Uso</span>
+            <p class="text-gray-400">{{ uso }}</p>
+        </div>
+
+        <div class="field col-6">
+            <span class="font-semibold">Latitud</span>
+            <p class="text-gray-400">{{ propertyData.latitud }}</p>
+        </div>
+        <div class="field col-6">
+            <span class="font-semibold">Longitud</span>
+            <p class="text-gray-400">{{ propertyData.longitud }}</p>
+        </div>
+
+        <div class="field col-12">
+            <span class="font-semibold">Observación</span>
+            <p class="text-gray-400">
+                {{ propertyData.observacion || 'Sin observación' }}
+            </p>
+        </div>
+    </div>
+</p-fieldset>

@@ -1,0 +1,273 @@
+<div class="card">
+    <h5 class="font-bold mb-1">Datos del solicitante</h5>
+    <p class="text-color-secondary">Ingresa la información del usuario solicitante</p>
+    <form [formGroup]="personalForm" class="p-fluid formgrid grid mt-5">
+        <!-- Linea 1 -->
+        <div class="field col-12 sm:col-7 md:col-8 xl:col-6 xxl:col-4">
+            <label for="nombre" class="required">Nombre o razón social</label>
+            <input id="nombre" type="text" pInputText formControlName="nombre" />
+            @if (personalForm.get('nombre')?.invalid && (submitted || personalForm.get('nombre')?.dirty)) {
+                <small class="p-error">Nombre o razón social es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-5 md:col-4 xl:col-6 xxl:col-4">
+            <label for="tipo_identificacion" class="required">Tipo de identificación</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                (onChange)="onChangetipo_identificacion()"
+                [options]="tipos_identificacion"
+                formControlName="tipo_identificacion"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="tipo_identificacion" />
+            @if (
+                personalForm.get('tipo_identificacion')?.invalid &&
+                (submitted || personalForm.get('tipo_identificacion')?.dirty)
+            ) {
+                <small class="p-error">Tipo de identificación es requerida</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-4 md:col-5 xxl:col-4">
+            <label for="numero_documento" class="required">Número de identificación</label>
+            <p-inputNumber
+                [maxlength]="10"
+                formControlName="numero_documento"
+                inputId="numero_documento"
+                locale="es-CO"
+                showClear />
+            @if (
+                personalForm.get('numero_documento')?.errors?.['required'] &&
+                (submitted || personalForm.get('numero_documento')?.dirty)
+            ) {
+                <small class="p-error">Número de identificación es requerido</small>
+            } @else if (personalForm.get('numero_documento')?.errors?.['min']) {
+                <small class="p-error">Número no válido</small>
+            }
+        </div>
+        @if (personalForm.get('tipo_identificacion')?.value === '2') {
+            <div class="field col-12 sm:col-8 md:col-7 xxl:col-4">
+                <label for="lastname" class="required">Tipo de persona jurídica</label>
+                <p-dropdown
+                    [autoOptionFocus]="false"
+                    [options]="tipos_persona_juridica"
+                    formControlName="tipo_persona_juridica"
+                    optionLabel="name"
+                    optionValue="code"
+                    placeholder="Seleccione una opción" />
+                @if (
+                    personalForm.get('tipo_persona_juridica')?.invalid &&
+                    (submitted || personalForm.get('tipo_persona_juridica')?.dirty)
+                ) {
+                    <small class="p-error">Tipo de persona jurídica es requerida</small>
+                }
+            </div>
+        } @else {
+            <div class="field col-12 sm:col-8 md:col-7 xxl:col-4">
+                <label for="lugar_expedicion" class="required">Lugar y fecha de expedición</label>
+                <div class="flex gap-2">
+                    <input id="lugar_expedicion" type="text" pInputText formControlName="lugar_expedicion" />
+                    <p-calendar
+                        [touchUI]="isMobile"
+                        placeholder="MM/DD/AAAA"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        appendTo="body"
+                        formControlName="fecha_expedicion"
+                        inputId="fecha_expedicion" />
+                </div>
+                @if (
+                    (personalForm.get('lugar_expedicion')?.invalid &&
+                        (submitted || personalForm.get('lugar_expedicion')?.dirty)) ||
+                    (personalForm.get('fecha_expedicion')?.invalid &&
+                        (submitted || personalForm.get('fecha_expedicion')?.dirty))
+                ) {
+                    <small class="p-error">Lugar de expedición y/o Fecha de expedición son requeridos</small>
+                }
+            </div>
+        }
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="archivo_documento" class="required">Archivo de identificación</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="archivo_documento">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (archivoIdName) {
+                        <span>{{ archivoIdName }}</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input
+                    type="file"
+                    id="archivo_documento"
+                    (change)="onarchivoIdSelected($event)"
+                    accept="application/pdf"
+                    required />
+                @if (archivoIdErr) {
+                    <small class="p-error mt-0">PDF de identificación es requerido</small>
+                }
+            </div>
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="" class="required">Calidad del solicitante</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="tipos_calidad_solicitante"
+                formControlName="calidad_solicitante"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="calidad_solicitante"></p-dropdown>
+            @if (
+                personalForm.get('calidad_solicitante')?.invalid &&
+                (submitted || personalForm.get('calidad_solicitante')?.dirty)
+            ) {
+                <small class="p-error">Calidad del solicitante es requerida</small>
+            }
+        </div>
+        <div class="hidden xl:block xl:col-4 xxl:hidden"></div>
+        <!-- Linea 4 -->
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="celular1" class="required">Celular 1</label>
+            <p-inputNumber
+                [maxlength]="10"
+                formControlName="celular1"
+                inputId="celular1"
+                [useGrouping]="false"
+                showClear />
+            @if (
+                personalForm.get('celular1')?.errors?.['required'] && (submitted || personalForm.get('celular1')?.dirty)
+            ) {
+                <small class="p-error">Celular 1 es requerido</small>
+            } @else if (personalForm.get('celular1')?.errors?.['min']) {
+                <small class="p-error">Numero no válido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="celular2">Celular 2</label>
+            <p-inputNumber
+                title="Celular 2"
+                [maxlength]="10"
+                formControlName="celular2"
+                inputId="celular2"
+                [useGrouping]="false"
+                showClear />
+            @if (personalForm.get('celular2')?.invalid) {
+                <small class="p-error">Numero no válido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="telefono">Teléfono</label>
+            <p-inputNumber
+                [maxlength]="10"
+                formControlName="telefono"
+                inputId="telefono"
+                [useGrouping]="false"
+                showClear />
+            @if (personalForm.get('telefono')?.invalid) {
+                <small class="p-error">Número no válido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="email" class="required">Correo electrónico</label>
+            <input id="email" type="text" pInputText formControlName="email" />
+            @if (personalForm.get('email')?.errors?.['required'] && (submitted || personalForm.get('email')?.dirty)) {
+                <small class="p-error">Correo electrónico es requerido</small>
+            } @else if (personalForm.get('email')?.errors?.['email']) {
+                <small class="p-error">Correo electrónico no válido</small>
+            }
+        </div>
+        <!-- Linea 5 -->
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_departamento" class="required">Departamento</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="departamentos"
+                formControlName="direccion_departamento"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_departamento" />
+            @if (
+                personalForm.get('direccion_departamento')?.invalid &&
+                (submitted || personalForm.get('direccion_departamento')?.dirty)
+            ) {
+                <small class="p-error">Departamento es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_municipio" class="required">Municipio</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="municipios"
+                formControlName="direccion_municipio"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_municipio" />
+            @if (
+                personalForm.get('direccion_municipio')?.invalid &&
+                (submitted || personalForm.get('direccion_municipio')?.dirty)
+            ) {
+                <small class="p-error">Municipio es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="sector" class="required">Sector</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="sectores"
+                formControlName="sector"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="sector" />
+            @if (personalForm.get('sector')?.invalid && (submitted || personalForm.get('sector')?.dirty)) {
+                <small class="p-error">Sector es requerido</small>
+            }
+        </div>
+        <div class="field col-12 sm:col-6 xl:col-3">
+            <label for="direccion_centro_poblado" class="required">Centro poblado</label>
+            <p-dropdown
+                [autoOptionFocus]="false"
+                [options]="centros_poblados"
+                formControlName="direccion_centro_poblado"
+                optionLabel="name"
+                optionValue="code"
+                placeholder="Seleccione una opción"
+                inputId="direccion_centro_poblado" />
+            @if (
+                personalForm.get('direccion_centro_poblado')?.invalid &&
+                (submitted || personalForm.get('direccion_centro_poblado')?.dirty)
+            ) {
+                <small class="p-error">Centro poblado es requerido</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6 xl:col-4">
+            <label for="direccion" class="required">Dirección</label>
+            <input id="direccion" type="text" pInputText formControlName="direccion" />
+            @if (personalForm.get('direccion')?.invalid && (submitted || personalForm.get('direccion')?.dirty)) {
+                <small class="p-error">Dirección es requerida</small>
+            }
+        </div>
+        <div class="field col-12 md:col-6 xl:col-3">
+            <label for="direccion_barrio" class="required">Barrio</label>
+            <input id="direccion_barrio" type="text" pInputText formControlName="direccion_barrio" />
+            @if (
+                personalForm.get('direccion_barrio')?.invalid &&
+                (submitted || personalForm.get('direccion_barrio')?.dirty)
+            ) {
+                <small class="p-error">Barrio es requerido</small>
+            }
+        </div>
+    </form>
+    <footer>
+        <div class="grid grid-nogutter justify-content-end mt-6">
+            <p-button
+                label="Guardar y continuar"
+                (click)="nextPage()"
+                icon="pi pi-angle-right"
+                iconPos="right"></p-button>
+        </div>
+    </footer>
+</div>

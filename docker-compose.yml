@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # Nombre del servicio
+  angular-app:
+    # Nombre de la imagen que se creará
+    image: mi-app-angular-prod
+    # Instrucciones para construir la imagen
+    build:
+      # Contexto: el directorio actual
+      context: .
+      # Dockerfile a usar
+      dockerfile: Dockerfile
+    # Mapeo de puertos: <puerto-en-tu-maquina>:<puerto-en-el-contenedor>
+    ports:
+      - "8080:4200"
+    # Política de reinicio
+    restart: unless-stopped
+    # Nombre del contenedor
+    container_name: mi_app_angular

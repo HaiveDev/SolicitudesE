@@ -1,0 +1,100 @@
+<div class="contaiter-auth">
+    <div class="card mt-0 sm:mt-8 p-2 sm:p-6 grid justify-content-around gap-0">
+        <div class="lg:col-5 hidden lg:flex justify-content-center align-content-center">
+            <img
+                routerLink="/"
+                src="../../../../assets/layout/images/energuaviareLogo.svg"
+                alt="Logo de energuaviare"
+                class="logoDesktop cursor-pointer" />
+        </div>
+
+        <p-divider styleClass="lg:col-2 hidden lg:block" layout="vertical" />
+
+        <div class="col-12 lg:col-5">
+            <div class="lg:hidden flex justify-content-center mb-6 sm:mb-4">
+                <img
+                    routerLink="/"
+                    src="../../../../assets/layout/images/energuaviareLogotipo.svg"
+                    alt="Logo de energuaviare"
+                    width="250"
+                    class="cursor-pointer" />
+            </div>
+
+            <p class="text-xl lg:text-2xl font-medium text-center my-2">Activar cuenta</p>
+            <p class="text-center text-sm lg:text-base">
+                Por favor ingrese el código enviado a su correo electrónico para activar su cuenta
+            </p>
+
+            <form [formGroup]="activateAccountForm" (ngSubmit)="onSubmit()" class="mt-3 p-fluid">
+                <div class="field mt-6">
+                    <label for="codigo">Código</label>
+                    <p-inputOtp formControlName="codigo" [length]="6" [integerOnly]="true" />
+                </div>
+
+                <!-- <div class="mt-3">
+                    ¿No tiene un código?
+                    <a class="anchor" [routerLink]="'/olvido-contrasena'">Reenviar código</a>
+                </div> -->
+
+                <div class="field mt-3">
+                    <label for="username">Identificación</label>
+                    <input
+                        placeholder="Ingrese su número de identificación"
+                        pKeyFilter="int"
+                        autocomplete=""
+                        class="w-full"
+                        formControlName="username"
+                        id="username"
+                        pInputText
+                        type="tel" />
+                </div>
+                <p-button
+                    [disabled]="
+                        activateAccountForm.controls['username'].invalid ||
+                        activateAccountForm.controls['username'].value === null
+                    "
+                    styleClass="mt-3 w-full"
+                    label="¿No tiene un código? - Reenviar código"
+                    type="button"
+                    (click)="onResendCode()" />
+                <span class="text-sm">Para reenviar el código, ingrese su número de identificación</span>
+
+                <p-button
+                    [disabled]="activateAccountForm.invalid"
+                    [loading]="isLoading"
+                    styleClass="mt-5 w-full"
+                    [label]="isLoading ? '' : 'Activar cuenta'"
+                    type="submit">
+                    <ng-template pTemplate="loadingicon">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="spinner">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l0 -3" />
+                            <path d="M16.25 7.75l2.15 -2.15" />
+                            <path d="M18 12l3 0" />
+                            <path d="M16.25 16.25l2.15 2.15" />
+                            <path d="M12 18l0 3" />
+                            <path d="M7.75 16.25l-2.15 2.15" />
+                            <path d="M6 12l-3 0" />
+                            <path d="M7.75 7.75l-2.15 -2.15" />
+                        </svg>
+                    </ng-template>
+                </p-button>
+
+                <div class="mt-3 text-right">
+                    Volver al
+                    <a class="anchor" [routerLink]="'/iniciar-sesion'">Inicio de sesión</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="card mt-4">
+    <h5 class="font-bold mb-1">Datos del equipo de medición</h5>
+    <p class="text-color-secondary">Completa la información según la adquisición del medidor</p>
+
+    <form [formGroup]="form" class="p-fluid formgrid grid mt-4">
+        <!-- ¿Adquiere equipo con Energuaviare? -->
+        <div class="field col-12 sm:col-6">
+            <label for="adquiereEquipo" class="required">¿Adquiere el equipo con Energuaviare?</label>
+            <div class="flex gap-4 mt-2">
+                <p-radioButton inputId="si" name="adquiereEquipo" value="si" formControlName="adquiereEquipo" />
+                <label for="si">Sí</label>
+                <p-radioButton inputId="no" name="adquiereEquipo" value="no" formControlName="adquiereEquipo" />
+                <label for="no">No</label>
+            </div>
+            @if (form.get('adquiereEquipo')?.invalid && submitted) {
+                <small class="p-error">Campo requerido</small>
+            }
+        </div>
+
+        <!-- Campos adicionales si selecciona "Sí" -->
+        @if (isAdquiereSi()) {
+            <!-- Tipo de equipo -->
+            <div class="field col-12 sm:col-6">
+                <label for="tipoEquipo" class="required">Tipo de equipo</label>
+                <p-dropdown
+                    inputId="tipoEquipo"
+                    [options]="tiposMedidor"
+                    placeholder="Seleccione un tipo"
+                    formControlName="tipoEquipo"
+                    optionLabel="name"
+                    optionValue="value" />
+                @if (form.get('tipoEquipo')?.invalid && submitted) {
+                    <small class="p-error">Seleccione un tipo de equipo</small>
+                }
+            </div>
+
+            <!-- ¿Financiado? -->
+            <div class="field col-12 sm:col-6">
+                <label for="financiado" class="required">¿Desea financiar el equipo?</label>
+                <div class="flex gap-4 mt-2">
+                    <p-radioButton inputId="finSi" name="financiado" value="si" formControlName="financiado" />
+                    <label for="finSi">Sí</label>
+                    <p-radioButton inputId="finNo" name="financiado" value="no" formControlName="financiado" />
+                    <label for="finNo">No</label>
+                </div>
+                @if (form.get('financiado')?.invalid && submitted) {
+                    <small class="p-error">Campo requerido</small>
+                }
+            </div>
+
+            <!-- Cuotas si financia -->
+            @if (isFinanciadoSi()) {
+                <div class="field col-12 sm:col-6">
+                    <label for="numeroCuotas" class="required">Número de cuotas</label>
+                    <p-dropdown
+                        inputId="numeroCuotas"
+                        [options]="cuotasFinanciacion"
+                        placeholder="Seleccione cuotas"
+                        formControlName="numeroCuotas"
+                        optionLabel="name"
+                        optionValue="value" />
+                    @if (form.get('numeroCuotas')?.invalid && submitted) {
+                        <small class="p-error">Seleccione número de cuotas</small>
+                    }
+                </div>
+            } @else {
+                <div class="field col-12 sm:col-6">
+                    <p class="text-color-secondary mt-3">
+                        El valor del equipo será cargado en su primera factura de servicio.
+                    </p>
+                </div>
+            }
+        }
+
+        <!-- Botón de prueba -->
+        <!-- <div class="field col-12 mt-4 text-right">
+            <p-button label="Guardar datos" icon="pi pi-save" (click)="submit()" />
+        </div> -->
+    </form>
+</div>

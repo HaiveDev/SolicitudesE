@@ -1,0 +1,116 @@
+<div class="layout-topbar">
+    <button pButton #menubutton class="layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <a
+        class="layout-topbar-logo flex flex-column align-items-center align-content-center justify-content-start -mt-4"
+        routerLink="/">
+        <p class="text-center m-0 translate-xy text-sm font-medium text-white">Solicitudes</p>
+        <img class="h-3rem" src="assets/layout/images/energuaviareLogotipoBlanco.svg" alt="logo" />
+    </a>
+
+    <div>
+        <p-menu #menuOptions [model]="items" [popup]="true" styleClass="max-w-23rem w-max absolute top-100 -mt-3">
+            <ng-template pTemplate="start">
+                <div class="m-2 p-3 border-round bg-gray-100 flex justify-content-start align-items-center gap-2">
+                    <div class="relative" style="height: 50px; aspect-ratio: 1/1">
+                        @if (loadingAvatar) {
+                            <div
+                                class="absolute top-0 left-0 w-full h-full flex justify-content-center align-items-center">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="spinner">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M12 6l0 -3" />
+                                    <path d="M16.25 7.75l2.15 -2.15" />
+                                    <path d="M18 12l3 0" />
+                                    <path d="M16.25 16.25l2.15 2.15" />
+                                    <path d="M12 18l0 3" />
+                                    <path d="M7.75 16.25l-2.15 2.15" />
+                                    <path d="M6 12l-3 0" />
+                                    <path d="M7.75 7.75l-2.15 -2.15" />
+                                </svg>
+                            </div>
+                        }
+
+                        <img
+                            [src]="
+                                'https://ui-avatars.com/api/?name=' + dataUser?.first_name + '+' + dataUser?.last_name
+                            "
+                            [alt]="'Avatar de ' + dataUser?.first_name + ' ' + dataUser?.last_name"
+                            height="50"
+                            (load)="loadingAvatar = false"
+                            (error)="loadingAvatar = false"
+                            [style.visibility]="loadingAvatar ? 'hidden' : 'visible'"
+                            class="border-round w-full h-full object-cover" />
+                    </div>
+
+                    <span class="inline-flex flex-column">
+                        <span class="font-bold truncate-bas max-w-15rem">
+                            {{ dataUser?.first_name | titlecase }} {{ dataUser?.last_name | titlecase }}
+                        </span>
+                        <span class="font-medium text-sm truncate-bas max-w-15rem">
+                            {{ dataUser?.cargo | titlecase }}
+                        </span>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+                <div class="flex align-items-center px-3 h-3rem">
+                    <span [class]="item.icon"></span>
+                    <span class="ml-3 mr-8">{{ item.label }}</span>
+                    @if (item.shortcut) {
+                        <span class="ml-auto border-1 surface-border border-round surface-100 text-sm p-1">
+                            {{ item.shortcut }}
+                        </span>
+                    }
+                    <!-- @if (item.switchDarkMode) {
+                        <span class="ml-auto">
+                            <p-inputSwitch [(ngModel)]="darkMode" (click)="$event.stopPropagation()"></p-inputSwitch>
+                        </span>
+                    } -->
+                </div>
+            </ng-template>
+            <ng-template pTemplate="end">
+                <p class="text-center border-round bg-gray-100 m-2 p-1 text-sm font-medium text-gray-300">v2.0.0</p>
+            </ng-template>
+        </p-menu>
+        <p-button class="layout-topbar-button" (click)="menuOptions.toggle($event)">
+            <i class="pi pi-user"></i>
+        </p-button>
+    </div>
+</div>
+<p-confirmDialog #cd [position]="position" dismissableMask="true">
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-4 surface-overlay border-round-2xl w-25rem">
+            <div class="text-red-500 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" />
+                </svg>
+            </div>
+            <span class="font-bold text-xl block mb-2 text-center text-balance">
+                {{ message.header }}
+            </span>
+            <p class="mb-0 text-center balance">{{ message.message }}</p>
+            <div class="flex justify-content-between gap-3 mt-4 w-full">
+                <div class="w-full">
+                    <p-button label="Cancelar" (click)="cd.reject()" styleClass="p-button-outlined w-full" />
+                </div>
+                <div class="w-full">
+                    <p-button label="Confirmar" (click)="cd.accept()" styleClass="w-full" />
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

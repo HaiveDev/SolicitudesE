@@ -1,0 +1,43 @@
+::ng-deep .p-panel .p-panel-content {
+    padding: 0;
+    border: 0;
+}
+
+::ng-deep .p-panel .p-panel-header {
+    border-bottom: 0;
+}
+
+::ng-deep .p-accordion p-accordiontab:first-child .p-accordion-header .p-accordion-header-link {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+::ng-deep .p-accordion p-accordiontab:last-child .p-accordion-header .p-accordion-header-link {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+::ng-deep .p-accordion p-accordiontab:last-child .p-accordion-content {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+::ng-deep .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    background: #cfe2ff;
+    color: #052c65;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: rgba(13, 110, 253, 0.25);
+}
+
+::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+    font-weight: 500;
+}
+
+::ng-deep .p-message {
+    margin: 0 0 1rem 0;
+    
+}
+
+.divider-message {
+    border-top: 1px solid var(--surface-border);
+}

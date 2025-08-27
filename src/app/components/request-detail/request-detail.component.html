@@ -1,0 +1,59 @@
+@if (status === 'Anulada') {
+    <p-messages severity="secondary">
+        <ng-template pTemplate>
+            <div class="w-full">
+                <div class="mx-2">
+                    <p class="block m-0"><b>Razón del rechazo</b></p>
+                    <p class="mt-1 mb-0">{{ rejectMessage }}</p>
+
+                    <div class="divider-message my-3"></div>
+                    <p>
+                        Puede realizar una nueva solicitud, teniendo en cuenta
+                        <b>la razón del rechazo</b>
+                        previamente indicada.
+                    </p>
+                </div>
+            </div>
+        </ng-template>
+    </p-messages>
+}
+<p-panel>
+    <ng-template pTemplate="header">
+        <p-button
+            (click)="router.navigate([routeBack()])"
+            styleClass="text-gray-700"
+            icon="pi pi-arrow-left"
+            size="small"
+            label="Volver"
+            [text]="true"
+            severity="secondary" />
+    </ng-template>
+
+    <ng-template pTemplate="icons">
+        <p>Solicitud: {{ infoSolicitud?.numero_solicitud }}</p>
+    </ng-template>
+
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Información de la solicitud">
+            <app-basic-request-info [dataRequest]="infoSolicitud!" />
+        </p-accordionTab>
+        <p-accordionTab header="Información del usuario solicitante">
+            <app-applicant-user-info [dataUser]="infoUsuario!" />
+        </p-accordionTab>
+        <p-accordionTab header="Información de la obra / inmueble">
+            <app-property-info [dataProperty]="infoObra!" />
+        </p-accordionTab>
+        @if (status !== 'Anulada') {
+            <p-accordionTab header="Información de asignación visita">
+                <app-assignments-info
+                    [dataAsignacion]="infoAsignaciones!"
+                    [dataVisita]="infoVisita!"
+                    [dataRequest]="infoSolicitud!" />
+            </p-accordionTab>
+        }
+    </p-accordion>
+
+    <ng-template pTemplate="footer">
+        <app-progress-state-bar [status]="status" />
+    </ng-template>
+</p-panel>

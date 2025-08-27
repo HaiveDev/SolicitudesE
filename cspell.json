@@ -1,0 +1,26 @@
+{
+    "version": "0.2",
+    "language": "en,es",
+    "dictionaries": ["typescript", "html", "css", "javascript"],
+    "ignorePaths": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/*.json",
+        "**/*.lock",
+        "**/*.config.*"
+    ],
+    "enabledLanguageIds": [
+        "html",
+        "javascript",
+        "typescript",
+        "jsx",
+        "tsx"
+    ],
+    "includeRegExpList": [
+        "/'([^']*)'/g",    // Solo cadenas dentro de comillas simples
+        "/\"([^\"]*)\"/g", // Solo cadenas dentro de comillas dobles
+        "/`([^`]*)`/g"     // Solo cadenas dentro de template literals
+    ]
+
+}

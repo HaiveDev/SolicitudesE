@@ -1,0 +1,45 @@
+<div class="card">
+    <h5 class="font-bold mb-1">Tipos de solicitudes</h5>
+    <p class="text-color-secondary">Selecciona un tipo de solicitud para iniciar con el proceso</p>
+    <!-- <p-fieldset legend="Solicitar matricula" styleClass="mb-4">
+        <div class="flex gap-2">
+            <input placeholder="Código factibilidad" pInputText type="text" class="w-full sm:w-auto" />
+            <button pButton label="Verificar" class="min-w-min"></button>
+        </div>
+        <small class="text-green-500 flex align-items-center mt-1">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 26 26"
+                fill="currentColor"
+                class="mr-1">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                    d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z" />
+            </svg>
+            <span>
+                La factibilidad
+                <b>100311</b>
+                esta lista para matricula
+            </span>
+        </small>
+        <button pButton label="Solicitar matricula para 100311" class="max-w-max mt-1"></button>
+    </p-fieldset> -->
+    <div class="grid gap-2 w-full justify-content-center xl:justify-content-start">
+        @for (item of items; track $index) {
+            <div
+                class="card-solicitud"
+                tabindex="0"
+                (click)="router.navigate([item.route])"
+                (keydown.enter)="router.navigate([item.route])">
+                <div [ngClass]="'card-solicitud-background img-' + $index"></div>
+                <div class="card-solicitud-gradient"></div>
+                <div class="card-solicitud-content">
+                    <h2 class="card-solicitud-text m-0">{{ item.label }}</h2>
+                </div>
+            </div>
+        }
+    </div>
+    <p-button styleClass="mt-4" label="Solicitud matricula" (click)="router.navigate(['/iniciar-matricula'])" />
+</div>

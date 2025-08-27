@@ -1,0 +1,198 @@
+<div class="contaiter-auth">
+    <p-toast position="top-center" life="5000" preventOpenDuplicates="true" key="mobile" />
+    <p-toast position="bottom-center" life="5000" preventOpenDuplicates="true" key="desktop" />
+    <div class="card mt-0 sm:mt-8 p-2 sm:p-6 grid justify-content-around gap-0">
+        <div class="lg:col-5 hidden lg:flex justify-content-center align-content-center">
+            <img
+                routerLink="/"
+                src="../../../../assets/layout/images/energuaviareLogo.svg"
+                alt="Logo de Energuaviare"
+                class="logoDesktop cursor-pointer" />
+        </div>
+
+        <p-divider styleClass="lg:col-2 hidden lg:block" layout="vertical" />
+
+        <div class="col-12 lg:col-5">
+            <div class="lg:hidden flex justify-content-center mb-6 sm:mb-4">
+                <img
+                    routerLink="/"
+                    src="../../../../assets/layout/images/energuaviareLogotipo.svg"
+                    alt="Logo de Energuaviare"
+                    width="250"
+                    class="cursor-pointer" />
+            </div>
+
+            <p class="text-xl lg:text-2xl font-medium text-center my-2">Solicitudes Energuaviare</p>
+            <p class="text-center text-sm lg:text-base">
+                Regístrese para acceder al sistema de solicitudes de Energuaviare
+            </p>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-6 p-fluid">
+                <div class="field">
+                    <label for="username">Identificación</label>
+
+                    <input
+                        class="w-full"
+                        formControlName="username"
+                        id="username"
+                        placeholder="Ingrese su número de identificación"
+                        pInputText
+                        pKeyFilter="int"
+                        type="tel" />
+
+                    @if (registerForm.controls['username'].invalid && registerForm.controls['username'].touched) {
+                        <small class="p-error">Identificación no valida</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="first_name">Nombre</label>
+                    <input
+                        class="w-full"
+                        formControlName="first_name"
+                        id="first_name"
+                        pInputText
+                        placeholder="Ingrese su nombre"
+                        type="text" />
+                    @if (registerForm.controls['first_name'].invalid && registerForm.controls['first_name'].touched) {
+                        <small class="p-error">Nombre es requerido</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="last_name">Apellido</label>
+                    <input
+                        class="w-full"
+                        formControlName="last_name"
+                        id="last_name"
+                        pInputText
+                        placeholder="Ingrese su apellido"
+                        type="text" />
+                    @if (registerForm.controls['last_name'].invalid && registerForm.controls['last_name'].touched) {
+                        <small class="p-error">Apellido es requerido</small>
+                    }
+                </div>
+                <div class="field">
+                    <label for="email">Correo Electrónico</label>
+                    <input
+                        class="w-full"
+                        formControlName="email"
+                        id="email"
+                        pInputText
+                        placeholder="Ingrese su correo electrónico"
+                        type="email" />
+                    @if (
+                        registerForm.controls['email'].hasError('email') &&
+                        !registerForm.controls['email'].hasError('required')
+                    ) {
+                        <small class="p-error">Por favor, ingresa una dirección de email válida</small>
+                    }
+                    @if (
+                        registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched
+                    ) {
+                        <small class="p-error">Email es requerido</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="phone">Celular</label>
+                    <input
+                        class="w-full"
+                        formControlName="phone"
+                        id="phone"
+                        pInputText
+                        pKeyFilter="int"
+                        placeholder="Ingrese su número de celular"
+                        type="tel" />
+                    @if (registerForm.controls['phone'].invalid && registerForm.controls['phone'].touched) {
+                        <small class="p-error">Numero de celular no valido</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="password">Crear contraseña</label>
+                    <p-password
+                        [toggleMask]="true"
+                        formControlName="password"
+                        mediumLabel="Complejidad media"
+                        placeholder="Cree una contraseña"
+                        promptLabel="Cree una contraseña"
+                        strongLabel="Contraseña compleja"
+                        weakLabel="Demasiado simple">
+                        <ng-template pTemplate="footer">
+                            <p-divider />
+                            <p class="mt-3 mb-1 font-medium">Sugerencias</p>
+                            <ul class="pl-3 ml-2 mt-0 text-red-500" style="line-height: 1.5">
+                                <li [class]="getClassForRequirement(hasLowerCase())">Al menos una minúscula</li>
+                                <li [class]="getClassForRequirement(hasUpperCase())">Al menos una mayúscula</li>
+                                <li [class]="getClassForRequirement(hasNumber())">Al menos un número</li>
+                                <li [class]="getClassForRequirement(hasSymbol())">Al menos un símbolo</li>
+                                <li [class]="getClassForRequirement(hasMinLength())">Mínimo 8 caracteres</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    @if (registerForm.controls['password'].invalid && registerForm.controls['password'].touched) {
+                        <small class="p-error">Contraseña no valida</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="passwordConfirm">Confirmar contraseña</label>
+                    <p-password
+                        [feedback]="false"
+                        [toggleMask]="true"
+                        formControlName="passwordConfirm"
+                        placeholder="Confirme su contraseña" />
+                    @if (!passwordsMatch && registerForm.controls['passwordConfirm'].touched) {
+                        <small class="p-error">Las contraseñas no coinciden</small>
+                    }
+                </div>
+
+                <div class="field-checkbox">
+                    <p-checkbox formControlName="terms" value="terms" inputId="terms" binary="true" />
+                    <label for="terms">
+                        Acepto los
+                        <a class="anchor" href="/terminos-y-condiciones" target="_blank">términos y condiciones</a>
+                    </label>
+                </div>
+
+                <p-button
+                    [disabled]="registerForm.invalid"
+                    [loading]="isLoading"
+                    styleClass="mt-5 w-full"
+                    [label]="isLoading ? '' : 'Registrarse'"
+                    type="submit">
+                    <ng-template pTemplate="loadingicon">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="spinner">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 6l0 -3" />
+                            <path d="M16.25 7.75l2.15 -2.15" />
+                            <path d="M18 12l3 0" />
+                            <path d="M16.25 16.25l2.15 2.15" />
+                            <path d="M12 18l0 3" />
+                            <path d="M7.75 16.25l-2.15 2.15" />
+                            <path d="M6 12l-3 0" />
+                            <path d="M7.75 7.75l-2.15 -2.15" />
+                        </svg>
+                    </ng-template>
+                </p-button>
+
+                <div class="mt-3 text-center">
+                    ¿Ya tiene una cuenta?
+                    <a class="anchor" [routerLink]="'/iniciar-sesion'">Iniciar sesión</a>
+                </div>
+                <p-button styleClass="mt-5 w-full" label="Activar cuenta" routerLink="/activar-cuenta" type="button" />
+            </form>
+        </div>
+    </div>
+</div>

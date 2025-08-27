@@ -1,0 +1,25 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+    <app-topbar></app-topbar>
+    <div class="layout-sidebar">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="layout-main-container">
+        <div class="layout-main">
+            <p-breadcrumb class="max-w-full hidden md:block" [model]="items">
+                <ng-template pTemplate="item" let-item>
+                    @if (item.route) {
+                        <a [routerLink]="item.route" class="p-menuitem-link">
+                            <span class="text-primary">{{ item.label }}</span>
+                        </a>
+                    } @else {
+                        <span class="text-color">{{ item.label }}</span>
+                    }
+                </ng-template>
+            </p-breadcrumb>
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+        <p-scrollTop styleClass="bg-primary shadow-3" [threshold]="300" icon="pi pi-arrow-up" />
+    </div>
+    <div class="layout-mask"></div>
+</div>

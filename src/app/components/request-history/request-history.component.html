@@ -1,0 +1,71 @@
+<p-toast position="top-center" life="5000" preventOpenDuplicates="true" />
+@defer (when responseRequestHistory() !== null) {
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h5 class="m-0 font-bold">Historial de solicitudes de factibilidad</h5>
+    </div>
+    <p-table
+        #dt
+        [alwaysShowPaginator]="false"
+        [resizableColumns]="true"
+        [rowHover]="true"
+        [value]="requestHistory"
+        [loading]="loadingRequestHistory"
+        dataKey="id"
+        styleClass="p-treetable-sm p-datatable-striped p-datatable-gridlines mb-4">
+        <ng-template pTemplate="caption">
+            <div class="">
+                <span class="p-input-icon-left w-full sm:w-auto">
+                    <i class="pi pi-search"></i>
+                    <input
+                        class="w-full"
+                        pInputText
+                        type="text"
+                        [(ngModel)]="searchValue"
+                        placeholder="Buscar por código" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Código</th>
+                <th>Fecha de creación</th>
+                @if (currentUser?.is_staff) {
+                    <th style="max-width: 20rem">Creador</th>
+                }
+                <th>Centro poblado</th>
+                <th>Tipo solicitud</th>
+                <th>Estado</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-solicitud>
+            <tr (click)="onRequestSelect(solicitud.numero_solicitud)" class="cursor-pointer">
+                <td>{{ solicitud.numero_solicitud }}</td>
+                <td>{{ solicitud.creado | formatDate }}</td>
+                @if (currentUser?.is_staff) {
+                    <td style="max-width: 20rem" class="truncate-bas">{{ solicitud.usuario.nombre | titlecase }}</td>
+                }
+                <td>
+                    {{ solicitud.centro_poblado ? solicitud.centro_poblado.agrupado : '' }}
+                </td>
+
+                <td>
+                    {{ solicitud.solicitud.tipo_display }}
+                </td>
+                <td>
+                    {{ solicitud.ultima_ejecucion.estado | titlecase }}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <app-paginator [totalItems]="totalRecords" [rowsPerPage]="20" (pageChange)="onPageChange($event)" />
+        </ng-template>
+        <ng-template pTemplate="loadingicon">
+            <p-progressSpinner styleClass="w-4rem" strokeWidth="3" fill="transparent" animationDuration="0.5s" />
+        </ng-template>
+    </p-table>
+} @placeholder {
+    <div class="text-center">
+        <p-progressSpinner styleClass="w-4rem" strokeWidth="3" fill="transparent" animationDuration="0.5s" />
+        <h5 class="mt-1">Cargando historial de solicitudes...</h5>
+    </div>
+}

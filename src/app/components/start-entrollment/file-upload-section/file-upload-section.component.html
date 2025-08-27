@@ -1,0 +1,188 @@
+<div class="card mt-4">
+    <h5 class="font-bold mb-1">Archivos requeridos</h5>
+    <p class="text-color-secondary">Carga los documentos solicitados</p>
+
+    <div class="p-fluid formgrid grid mt-5">
+        <!-- //TODO: Converir a un componente reutilizable -->
+        <!-- Certificado de calibración del medidor -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="cert_calibracion" class="required">Certificado de calibración del medidor</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="cert_calibracion">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="cert_calibracion" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Retie -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="retie" class="required">Retie</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="retie">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="retie" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Matrícula o tarjeta profesional del técnico electricista -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="matricula_tecnico" class="required">Matrícula o tarjeta profesional del técnico</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="matricula_tecnico">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="matricula_tecnico" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Cuadro de carga y plano eléctrico -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="cuadro_plano" class="required">Cuadro de carga y plano eléctrico</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="cuadro_plano">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="cuadro_plano" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Certificado de estrato residencial -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="cert_estrato" class="required">Certificado de estrato residencial</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="cert_estrato">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="cert_estrato" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Licencia de construcción (opcional) -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="licencia_construccion">Licencia de construcción (opcional)</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="licencia_construccion">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="licencia_construccion" accept="application/pdf" />
+            </div>
+        </div>
+
+        <!-- Copia factura vecino -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="factura_vecino" class="required">Copia factura del vecino</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="factura_vecino">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="factura_vecino" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- Certificado de libertad y tradición -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="libertad_tradicion" class="required">Certificado de libertad y tradición</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="libertad_tradicion">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="libertad_tradicion" accept="application/pdf" required />
+                @if (false) {
+                    <small class="p-error mt-0">Este documento es requerido</small>
+                }
+            </div>
+        </div>
+
+        <!-- RUT y cámara de comercio (si es persona jurídica) -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="rut_comercio">RUT y cámara de comercio (si es persona jurídica)</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="rut_comercio">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="rut_comercio" accept="application/pdf" />
+            </div>
+        </div>
+
+        <!-- Autorización si no es el propietario -->
+        <div class="field col-12 sm:col-6 xl:col-4">
+            <label for="autorizacion">Autorización si no es el propietario</label>
+            <div class="custom-file-button">
+                <label class="text-left" for="autorizacion">
+                    <i class="pi pi-upload mr-3"></i>
+                    @if (false) {
+                        <span>false</span>
+                    } @else {
+                        <span>Seleccione un archivo (PDF)</span>
+                    }
+                </label>
+                <input type="file" id="autorizacion" accept="application/pdf" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<ul class="layout-menu">
+    @if (dataUser?.is_superuser) {
+        @for (item of modelAdmin; track $index) {
+            @if (!item.separator) {
+                <li app-menuitem [item]="item" [index]="index" [root]="true"></li>
+            }
+            @if (item.separator) {
+                <p-divider />
+            }
+        }
+    } @else {
+        @for (item of modelUser; track $index) {
+            @if (!item.separator) {
+                <li app-menuitem [item]="item" [index]="index" [root]="true"></li>
+            }
+            @if (item.separator) {
+                <p-divider />
+            }
+        }
+    }
+</ul>
